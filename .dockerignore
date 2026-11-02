@@ -1,0 +1,10 @@
+.git
+.maven-cache
+.build-cache
+node_modules
+dist
+backend/target
+backend/data
+*.log
+.env
+.env.*

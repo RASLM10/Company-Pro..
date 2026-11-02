@@ -1,0 +1,196 @@
+{
+  "info": {
+    "name": "CompanyPro API",
+    "description": "Local Spring Boot employee and department API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "employeeId",
+      "value": "1"
+    },
+    {
+      "value": "admin",
+      "key": "adminUsername"
+    },
+    {
+      "value": "",
+      "key": "adminPassword"
+    },
+    {
+      "value": "",
+      "key": "csrfToken"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/health"
+      }
+    },
+    {
+      "item": [
+        {
+          "request": {
+            "url": "{{baseUrl}}/api/auth/csrf",
+            "method": "GET"
+          },
+          "name": "Get CSRF token"
+        },
+        {
+          "request": {
+            "body": {
+              "raw": "{\"username\":\"{{adminUsername}}\",\"password\":\"{{adminPassword}}\"}",
+              "mode": "raw"
+            },
+            "url": "{{baseUrl}}/api/auth/login",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "POST"
+          },
+          "name": "Login"
+        },
+        {
+          "request": {
+            "url": "{{baseUrl}}/api/auth/me",
+            "method": "GET"
+          },
+          "name": "Current session"
+        }
+      ],
+      "name": "Authentication"
+    },
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "List employees",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/employees"
+          }
+        },
+        {
+          "name": "Search employees",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/employees?q=it"
+          }
+        },
+        {
+          "name": "Get employee",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/employees/{{employeeId}}"
+          }
+        },
+        {
+          "name": "Create employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alex Morgan\",\n  \"email\": \"alex.morgan@example.com\",\n  \"phone\": \"+1 555 0100\",\n  \"department\": \"Engineering\",\n  \"position\": \"Software Engineer\",\n  \"salary\": 85000,\n  \"joiningDate\": \"2025-01-15\",\n  \"status\": \"active\",\n  \"address\": \"\"\n}"
+            },
+            "url": "{{baseUrl}}/api/employees"
+          }
+        },
+        {
+          "name": "Update employee",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Alex Morgan\",\n  \"email\": \"alex.morgan@example.com\",\n  \"phone\": \"+1 555 0100\",\n  \"department\": \"Engineering\",\n  \"position\": \"Senior Software Engineer\",\n  \"salary\": 95000,\n  \"joiningDate\": \"2025-01-15\",\n  \"status\": \"active\",\n  \"address\": \"\"\n}"
+            },
+            "url": "{{baseUrl}}/api/employees/{{employeeId}}"
+          }
+        },
+        {
+          "name": "Delete employee",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/employees/{{employeeId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Departments",
+      "item": [
+        {
+          "name": "List departments",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/departments"
+          }
+        },
+        {
+          "name": "Create department",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Engineering\",\n  \"manager\": \"Alex Morgan\",\n  \"description\": \"Product engineering team\"\n}"
+            },
+            "url": "{{baseUrl}}/api/departments"
+          }
+        },
+        {
+          "name": "Delete department",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/departments/1"
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const method = pm.request.method.toUpperCase();",
+          "if ([\"POST\", \"PUT\", \"PATCH\", \"DELETE\"].includes(method) && !pm.request.url.toString().endsWith(\"/api/auth/csrf\")) {",
+          "  pm.sendRequest({ url: pm.collectionVariables.get(\"baseUrl\") + \"/api/auth/csrf\", method: \"GET\" }, (err, response) => {",
+          "    if (err) throw err;",
+          "    const data = response.json();",
+          "    pm.collectionVariables.set(\"csrfToken\", data.token);",
+          "    pm.request.headers.upsert({ key: data.headerName || \"X-CSRF-TOKEN\", value: data.token });",
+          "  });",
+          "}"
+        ]
+      },
+      "listen": "prerequest"
+    }
+  ]
+}

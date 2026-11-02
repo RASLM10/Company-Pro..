@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departments - CompanyPro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-building"></i>
+            <span>CompanyPro</span>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="employees.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Employees</span>
+            </a>
+            <a href="departments.html" class="nav-item active">
+                <i class="fas fa-building"></i>
+                <span>Departments</span>
+            </a>
+            <a href="reports.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-profile">
+                <div class="admin-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="admin-info">
+                    <div class="admin-name">Admin User</div>
+                    <div class="admin-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">Departments</h1>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search departments...">
+                </div>
+                <a href="login.html" class="btn-logout" onclick="logout(); return false;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="font-size: 1.5rem; color: #0f172a;">All Departments</h2>
+                <button class="btn-primary" id="addDepartmentBtn">
+                    <i class="fas fa-plus"></i>
+                    Add Department
+                </button>
+            </div>
+
+            <!-- Departments Grid -->
+            <div class="departments-grid">
+                <!-- Departments will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Department Modal -->
+    <div id="addDepartmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Department</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addDepartmentForm">
+                    <div class="form-section">
+                        <h4><i class="fas fa-building"></i> Department Information</h4>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Department Name <span class="required">*</span></label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Manager Name <span class="required">*</span></label>
+                                <input type="text" name="manager" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Manager Email <span class="required">*</span></label>
+                                <input type="email" name="managerEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Manager Phone <span class="required">*</span></label>
+                                <input type="tel" name="managerPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Location <span class="required">*</span></label>
+                                <input type="text" name="location" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Budget (₹) <span class="required">*</span></label>
+                                <input type="number" name="budget" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Description</label>
+                                <textarea name="description" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="document.getElementById('addDepartmentModal').style.display='none'">Cancel</button>
+                <button type="submit" form="addDepartmentForm" class="btn-primary">
+                    <i class="fas fa-save"></i>
+                    Add Department
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Department Modal -->
+    <div id="viewDepartmentModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2>Department Details</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-section">
+                    <h3><i class="fas fa-building"></i> Department Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Department ID</label>
+                            <p id="viewDeptId"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Department Name</label>
+                            <p id="viewDeptName"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Manager</label>
+                            <p id="viewDeptManager"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Manager Email</label>
+                            <p id="viewDeptManagerEmail"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Manager Phone</label>
+                            <p id="viewDeptManagerPhone"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Total Employees</label>
+                            <p id="viewDeptEmployeeCount"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Location</label>
+                            <p id="viewDeptLocation"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Annual Budget</label>
+                            <p id="viewDeptBudget"></p>
+                        </div>
+                        <div class="info-item full-width">
+                            <label>Description</label>
+                            <p id="viewDeptDescription"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3><i class="fas fa-users"></i> Employees in this Department</h3>
+                    <div id="viewDeptEmployees">
+                        <!-- Employee list will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Department Modal -->
+    <div id="editDepartmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Department</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editDepartmentForm">
+                    <input type="hidden" id="editDepartmentId">
+                    
+                    <div class="form-section">
+                        <h4><i class="fas fa-building"></i> Department Information</h4>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Department Name <span class="required">*</span></label>
+                                <input type="text" id="editDeptName" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Manager Name <span class="required">*</span></label>
+                                <input type="text" id="editManager" name="manager" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Manager Email <span class="required">*</span></label>
+                                <input type="email" id="editManagerEmail" name="managerEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Manager Phone <span class="required">*</span></label>
+                                <input type="tel" id="editManagerPhone" name="managerPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Location <span class="required">*</span></label>
+                                <input type="text" id="editLocation" name="location" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Budget (₹) <span class="required">*</span></label>
+                                <input type="number" id="editBudget" name="budget" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Description</label>
+                                <textarea id="editDescription" name="description" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="document.getElementById('editDepartmentModal').style.display='none'">Cancel</button>
+                <button type="submit" form="editDepartmentForm" class="btn-primary">
+                    <i class="fas fa-save"></i>
+                    Update Department
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/apiSync.js"></script>
+    <script src="js/departments.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+backend/target/
+backend/data/
+.tools/
+.maven-cache/
+.build-cache/
+data/
+*.log
+.env

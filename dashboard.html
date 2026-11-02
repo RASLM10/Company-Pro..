@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CompanyPro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-building"></i>
+            <span>CompanyPro</span>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="employees.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Employees</span>
+            </a>
+            <a href="departments.html" class="nav-item">
+                <i class="fas fa-building"></i>
+                <span>Departments</span>
+            </a>
+            <a href="reports.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-profile">
+                <div class="admin-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="admin-info">
+                    <div class="admin-name">Admin User</div>
+                    <div class="admin-role">Administrator</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <a href="login.html" class="btn-logout" onclick="logout(); return false;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content-container">
+            <!-- Statistics Cards - REAL DATA -->
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-label">Total Employees</div>
+                        <div class="stat-value" id="totalEmployees">0</div>
+                        <div class="stat-change positive" id="employeeChange">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>12% from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card green">
+                    <div class="stat-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-label">Departments</div>
+                        <div class="stat-value" id="totalDepartments">0</div>
+                        <div class="stat-change neutral">
+                            <i class="fas fa-minus"></i>
+                            <span>No change</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card orange">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-label">Present Today</div>
+                        <div class="stat-value" id="presentToday">0</div>
+                        <div class="stat-change positive" id="attendanceRate">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>0% attendance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card purple">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-times"></i>
+                    </div>
+                    <div class="stat-details">
+                        <div class="stat-label">On Leave</div>
+                        <div class="stat-value" id="onLeave">0</div>
+                        <div class="stat-change neutral" id="leavePercentage">
+                            <i class="fas fa-minus"></i>
+                            <span>0% on leave</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Recent Employees -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Employees</h3>
+                        <a href="employees.html" class="view-all">
+                            View All <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table class="employee-table">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Department</th>
+                                        <th>Position</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentEmployeesTable">
+                                    <!-- Data will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Department Overview - REAL DATA -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Department Overview</h3>
+                        <a href="departments.html" class="view-all">
+                            View All <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="card-body" id="departmentOverview">
+                        <!-- Department stats will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Quick Actions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="quick-actions-grid">
+                        <a href="employees.html" class="quick-action-btn">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Add Employee</span>
+                        </a>
+                        <a href="departments.html" class="quick-action-btn">
+                            <i class="fas fa-building"></i>
+                            <span>Manage Departments</span>
+                        </a>
+                        <a href="reports.html" class="quick-action-btn">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Generate Report</span>
+                        </a>
+                        <a href="employees.html" class="quick-action-btn">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Mark Attendance</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- View Employee Modal -->
+    <div id="viewEmployeeModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2>Employee Details</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-info-section">
+                    <div class="profile-avatar-large">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-details">
+                        <h2 id="viewEmployeeName"></h2>
+                        <p class="profile-email" id="viewEmployeeEmail"></p>
+                        <div id="viewEmployeeStatus"></div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3><i class="fas fa-user"></i> Personal Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Employee ID</label>
+                            <p id="viewEmployeeId"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Phone</label>
+                            <p id="viewEmployeePhone"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Blood Group</label>
+                            <p id="viewEmployeeBlood"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Emergency Contact</label>
+                            <p id="viewEmployeeEmergency"></p>
+                        </div>
+                        <div class="info-item full-width">
+                            <label>Address</label>
+                            <p id="viewEmployeeAddress"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3><i class="fas fa-briefcase"></i> Employment Details</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Department</label>
+                            <p id="viewEmployeeDepartment"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Position</label>
+                            <p id="viewEmployeePosition"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Salary</label>
+                            <p id="viewEmployeeSalary"></p>
+                        </div>
+                        <div class="info-item">
+                            <label>Joining Date</label>
+                            <p id="viewEmployeeJoining"></p>
+                        </div>
+                        <div class="info-item full-width">
+                            <label>Education</label>
+                            <p id="viewEmployeeEducation"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Employee Modal -->
+    <div id="editEmployeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Employee</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editEmployeeForm">
+                    <input type="hidden" id="editEmployeeId">
+                    
+                    <div class="form-section">
+                        <h4><i class="fas fa-user"></i> Personal Information</h4>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Full Name <span class="required">*</span></label>
+                                <input type="text" id="editName" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email <span class="required">*</span></label>
+                                <input type="email" id="editEmail" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone <span class="required">*</span></label>
+                                <input type="tel" id="editPhone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Blood Group</label>
+                                <input type="text" id="editBloodGroup" name="bloodGroup">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Address</label>
+                                <textarea id="editAddress" name="address" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4><i class="fas fa-briefcase"></i> Employment Details</h4>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Department <span class="required">*</span></label>
+                                <select id="editDepartment" name="department" required>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Finance">Finance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Position <span class="required">*</span></label>
+                                <input type="text" id="editPosition" name="position" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Salary (₹) <span class="required">*</span></label>
+                                <input type="number" id="editSalary" name="salary" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Joining Date <span class="required">*</span></label>
+                                <input type="date" id="editJoiningDate" name="joiningDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Status <span class="required">*</span></label>
+                                <select id="editStatus" name="status" required>
+                                    <option value="active">Active</option>
+                                    <option value="on-leave">On Leave</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Emergency Contact</label>
+                                <input type="tel" id="editEmergencyContact" name="emergencyContact">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Education</label>
+                                <input type="text" id="editEducation" name="education">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="document.getElementById('editEmployeeModal').style.display='none'">Cancel</button>
+                <button type="submit" form="editEmployeeForm" class="btn-primary">
+                    <i class="fas fa-save"></i>
+                    Update Employee
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/apiSync.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
+
