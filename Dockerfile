@@ -19,4 +19,4 @@ FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=backend-build /workspace/backend/target/companypro-api-secured.jar ./app.jar
 EXPOSE 10000
-ENTRYPOINT ["sh", "-c", "if [ -n \"${DATABASE_URL:-}\" ]; then case \"$DATABASE_URL\" in postgres://*|postgresql://*) export SPRING_DATASOURCE_URL=jdbc:$DATABASE_URL ;; esac; fi; exec java -jar /app/app.jar"]
+ENTRYPOINT ["sh", "-c", "if [ -n \"${DATABASE_URL:-}\" ]; then case \"$DATABASE_URL\" in postgres://*|postgresql://*) export DATABASE_URL=jdbc:$DATABASE_URL ;; esac; fi; exec java -jar /app/app.jar"]
